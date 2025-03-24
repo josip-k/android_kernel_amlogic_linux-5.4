@@ -1,0 +1,56 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/*
+ * Copyright (c) 2019 Amlogic, Inc. All rights reserved.
+ */
+
+/* Vontar-specific modifications */
+&ethmac {
+	power-domains = <0x1b 0x09>;
+	clocks = <0x0e 0x11a 0x0e 0x05 0x0e 0x39>;
+	internal_phy = <0x02>;
+	cali_val = <0x80000>;
+};
+
+&mdio0 {
+	external_phy: ethernet-phy@0 {
+		reg = <0>;
+		max-speed = <1000>;
+		reset-assert-us = <20000>;
+		reset-deassert-us = <50000>;
+		reset-gpios = <&gpio GPIOZ_14 (GPIO_ACTIVE_LOW | GPIO_OPEN_DRAIN)>;
+		interrupt-parent = <&gpio_intc>;
+		interrupts = <0x154 IRQ_TYPE_LEVEL_LOW>;
+	};
+};
+
+&periphs_pinctrl {
+	eth_pins: eth {
+		mux {
+			groups = "eth_mdio",
+					"eth_mdc",
+					"eth_rgmii_rx_clk",
+					"eth_rx_dv",
+					"eth_rxd0",
+					"eth_rxd1",
+					"eth_txen",
+					"eth_txd0",
+					"eth_txd1";
+			function = "eth";
+			drive-strength-microamp = <4000>;
+			bias-disable;
+		};
+	};
+
+	eth_rgmii_pins: eth-rgmii {
+		mux {
+			groups = "eth_rxd2_rgmii",
+					"eth_rxd3_rgmii",
+					"eth_rgmii_tx_clk",
+					"eth_txd2_rgmii",
+					"eth_txd3_rgmii";
+			function = "eth";
+			drive-strength-microamp = <4000>;
+			bias-disable;
+		};
+	};
+};

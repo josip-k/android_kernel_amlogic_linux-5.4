@@ -6,7 +6,9 @@
 /dts-v1/;
 
 #include "meson-sc2.dtsi"
+#include "meson-sc2-vontar-overlay.dtsi"
 #include "partition_mbox_ab.dtsi"
+#include "remote-vontarx4-34btns.dtsi"
 #include <dt-bindings/input/input.h>
 
 / {
@@ -1492,9 +1494,12 @@
 };
 
 &ethmac {
+	pinctrl-0 = <&eth_pins>, <&eth_rgmii_pins>;
+	pinctrl-names = "default";
 	status = "okay";
-	phy-handle = <&internal_ephy>;
-	phy-mode = "rmii";
+	phy-mode = "rgmii";
+	phy-handle = <&external_phy>;
+	amlogic,tx-delay-ns = <2>;
 };
 
 &ir {
